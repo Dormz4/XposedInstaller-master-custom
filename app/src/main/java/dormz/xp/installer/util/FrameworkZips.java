@@ -37,6 +37,8 @@ import dormz.xp.installer.util.InstallZipUtil.XposedProp;
 import dormz.xp.installer.util.InstallZipUtil.ZipCheckResult;
 import dormz.xp.installer.XposedApp;
 
+import static dormz.xp.installer.XposedApp.TAG;
+
 public final class FrameworkZips {
     public static final String ARCH = getArch();
     public static final String SDK = Integer.toString(Build.VERSION.SDK_INT);
@@ -112,7 +114,7 @@ public final class FrameworkZips {
         } catch (FileNotFoundException e) {
             return emptyMapArray();
         } catch (IOException e) {
-            Log.e(XposedApp.TAG, "Could not read " + ONLINE_FILE, e);
+            Log.e(TAG, "Could not read " + ONLINE_FILE, e);
             return emptyMapArray();
         }
 
@@ -132,7 +134,7 @@ public final class FrameworkZips {
 
             return zipsArray;
         } catch (JSONException e) {
-            Log.e(XposedApp.TAG, "Could not parse " + ONLINE_URL, e);
+            Log.e(TAG, "Could not parse " + ONLINE_URL, e);
             return emptyMapArray();
         }
     }
@@ -172,7 +174,7 @@ public final class FrameworkZips {
         } else if (typeString.equals("uninstaller")) {
             type = Type.UNINSTALLER;
         } else {
-            Log.w(XposedApp.TAG, "Unsupported framework zip type: " + typeString);
+            Log.w(TAG, "Unsupported framework zip type: " + typeString);
             return;
         }
         Map<String, OnlineFrameworkZip> zips = zipsArray[type.ordinal()];
@@ -309,6 +311,8 @@ public final class FrameworkZips {
 
     // TODO Replace this with a proper way to report loading failures to the users.
     public static boolean hasLoadedOnlineZips() {
+        Log.d(TAG,"sOnline:"+sOnline);
+        Log.d(TAG,"EMPTY_MAP_ARRAY:"+EMPTY_MAP_ARRAY);
         return sOnline != EMPTY_MAP_ARRAY;
     }
 
@@ -364,7 +368,7 @@ public final class FrameworkZips {
             if ((entry = zipFile.getEntry("system/xposed.prop")) != null) {
                 XposedProp prop = InstallZipUtil.parseXposedProp(zipFile.getInputStream(entry));
                 if (prop == null || !prop.isCompatible()) {
-                    Log.w(XposedApp.TAG, "ZIP file is not compatible: " + file);
+                    Log.w(TAG, "ZIP file is not compatible: " + file);
                     return null;
                 }
                 zip.title = "Version " + prop.getVersion();
@@ -384,7 +388,7 @@ public final class FrameworkZips {
             zip.path = file;
             return zip;
         } catch (IOException e) {
-            Log.e(XposedApp.TAG, "Errors while checking " + file, e);
+            Log.e(TAG, "Errors while checking " + file, e);
             return null;
         } finally {
             if (zipFile != null) {

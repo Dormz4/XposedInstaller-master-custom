@@ -551,7 +551,8 @@ public class ModulesFragment extends ListFragment implements ModuleListener {
                 checkbox.setEnabled(false);
                 warningText.setText(getString(R.string.warning_installed_on_external_storage));
                 warningText.setVisibility(View.VISIBLE);
-            } else if (installedXposedVersion == 0) {
+            }
+            else if (installedXposedVersion == 0) {
                 checkbox.setEnabled(false);
                 warningText.setText(getString(R.string.framework_not_installed));
                 warningText.setVisibility(View.VISIBLE);
@@ -559,6 +560,10 @@ public class ModulesFragment extends ListFragment implements ModuleListener {
                 checkbox.setEnabled(true);
                 warningText.setVisibility(View.GONE);
             }
+//            else {
+//                checkbox.setEnabled(true);
+//                warningText.setVisibility(View.GONE);
+//            }
             return view;
         }
     }

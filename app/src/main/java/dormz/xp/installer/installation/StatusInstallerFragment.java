@@ -142,6 +142,7 @@ public class StatusInstallerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.i("DZ-XP","invoke refreshInstallStatus");
         refreshInstallStatus();
     }
 
@@ -155,6 +156,7 @@ public class StatusInstallerFragment extends Fragment {
         // TODO This should probably compare the full version string, not just the number part.
         int active = XposedApp.getActiveXposedVersion();
         int installed = XposedApp.getInstalledXposedVersion();
+        Log.i("DZ-XP","version:"+installed);
         if (installed < 0) {
             txtInstallError.setText(R.string.framework_not_installed);
             txtInstallError.setTextColor(getResources().getColor(R.color.warning));
